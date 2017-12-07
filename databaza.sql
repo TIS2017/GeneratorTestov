@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Hostiteľ: localhost
--- Vygenerované: Út 07.Nov 2017, 17:20
--- Verzia serveru: 5.5.53
+-- Vygenerované: Št 07.Dec 2017, 22:06
+-- Verzia serveru: 5.5.58
 -- Verzia PHP: 5.6.29-0+deb8u1
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id otazky',
   `question` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'znenie otazky',
   `points` int(11) NOT NULL COMMENT 'pocet bodov',
+  `practical` tinyint(1) NOT NULL COMMENT 'true - prakticka / false - nie prakticka',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
 
@@ -84,13 +85,13 @@ CREATE TABLE IF NOT EXISTS `questions` (
 -- Sťahujem dáta pre tabuľku `questions`
 --
 
-INSERT INTO `questions` (`id`, `question`, `points`) VALUES
-(1, 'Matica opakovaných výskytov. Ako sa tvorí a aké informácie sa z nej dajú odvodiť?', 5),
-(2, 'Popíšte Harrisov detektor rohov. Voči ktorým transformáciám ja a nie je invariantný. Prečo?', 10),
-(3, 'Popíšte Houghovu transformáciu pre priamky ľubovoľného smeru.', 10),
-(4, 'Popíšte metódu SIFT (detektor a deskriptor).', 10),
-(5, 'Popíšte Ittiho model vizuálnej pozornosti.', 15),
-(6, 'a) Vyznačtete 8-susednú hranicu oblasti na obrázku A. Napíšte jej reťazcový (Freemanov) kód, začínajúci vo vyznačenom bode, ktorý postupuje v smere hodinových ručičiek. Susedov označujte podľa obrázka B.\r\nb) Cyklicky posuňte kód tak, aby vzniklo najmenš', 10);
+INSERT INTO `questions` (`id`, `question`, `points`, `practical`) VALUES
+(1, 'Matica opakovaných výskytov. Ako sa tvorí a aké informácie sa z nej dajú odvodiť?', 5, 0),
+(2, 'Popíšte Harrisov detektor rohov. Voči ktorým transformáciám ja a nie je invariantný. Prečo?', 10, 0),
+(3, 'Popíšte Houghovu transformáciu pre priamky ľubovoľného smeru.', 10, 0),
+(4, 'Popíšte metódu SIFT (detektor a deskriptor).', 10, 0),
+(5, 'Popíšte Ittiho model vizuálnej pozornosti.', 15, 0),
+(6, 'a) Vyznačtete 8-susednú hranicu oblasti na obrázku A. Napíšte jej reťazcový (Freemanov) kód, začínajúci vo vyznačenom bode, ktorý postupuje v smere hodinových ručičiek. Susedov označujte podľa obrázka B.\r\nb) Cyklicky posuňte kód tak, aby vzniklo najmenš', 10, 0);
 
 --
 -- Obmedzenie pre exportované tabuľky
