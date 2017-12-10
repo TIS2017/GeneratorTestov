@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Hostiteľ: localhost
--- Vygenerované: Št 07.Dec 2017, 22:06
+-- Vygenerované: Ned 10.Dec 2017, 11:56
 -- Verzia serveru: 5.5.58
 -- Verzia PHP: 5.6.29-0+deb8u1
 
@@ -42,7 +42,9 @@ CREATE TABLE IF NOT EXISTS `keywords_questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `keyword_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_keyword_id` (`keyword_id`),
+  KEY `fk_question_id` (`question_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_slovak_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -56,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `pictures` (
   `picture` text COLLATE utf8_bin NOT NULL COMMENT 'obrazok zakomentovany base64',
   `question_id` int(11) NOT NULL COMMENT 'cudzi kluc odkazujuci na otazku v tabulke questions',
   PRIMARY KEY (`id`),
-  KEY `question_id` (`question_id`)
+  KEY `fk_question_id` (`question_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
 
 --
@@ -98,9 +100,17 @@ INSERT INTO `questions` (`id`, `question`, `points`, `practical`) VALUES
 --
 
 --
+-- Obmedzenie pre tabuľku `keywords_questions`
+--
+ALTER TABLE `keywords_questions`
+  ADD CONSTRAINT `fk_questions_id` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
+  ADD CONSTRAINT `fk_keyword_id` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`);
+
+--
 -- Obmedzenie pre tabuľku `pictures`
 --
 ALTER TABLE `pictures`
+  ADD CONSTRAINT `fk_question_id` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
   ADD CONSTRAINT `pictures_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
