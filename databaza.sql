@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Hostiteľ: localhost
--- Vygenerované: Út 12.Dec 2017, 14:05
+-- Vygenerované: Po 18.Dec 2017, 17:14
 -- Verzia serveru: 5.5.58
 -- Verzia PHP: 5.6.29-0+deb8u1
 
@@ -39,13 +39,11 @@ CREATE TABLE IF NOT EXISTS `keywords` (
 --
 
 CREATE TABLE IF NOT EXISTS `keywords_questions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `keyword_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
   KEY `fk_keyword_id` (`keyword_id`),
   KEY `fk_question_id` (`question_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_slovak_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_slovak_ci;
 
 -- --------------------------------------------------------
 
@@ -81,8 +79,8 @@ INSERT INTO `questions` (`id`, `question`, `points`, `practical`) VALUES
 -- Obmedzenie pre tabuľku `keywords_questions`
 --
 ALTER TABLE `keywords_questions`
-  ADD CONSTRAINT `fk_questions_id` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
-  ADD CONSTRAINT `fk_keyword_id` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`);
+  ADD CONSTRAINT `fk_keyword_id` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`),
+  ADD CONSTRAINT `fk_questions_id` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
