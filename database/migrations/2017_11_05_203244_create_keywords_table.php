@@ -16,7 +16,7 @@ class CreateKeywordsTable extends Migration
         Schema::create('keywords', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('keyword', 100)->comment('klucove slovo');
+            $table->text('keyword')->comment('klucove slovo');
         });
     }
 
