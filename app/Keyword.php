@@ -9,8 +9,8 @@ class Keyword extends Model
 
     protected $table = 'keywords';
 
-    public function question() {
-        return $this->belongsTo('App\Question');
+    public function questions() {
+        return $this->belongsToMany('App\Question', 'keywords_questions', 'keyword_id', 'question_id');
     }
 
 }

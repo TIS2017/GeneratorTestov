@@ -10,7 +10,7 @@ class Question extends Model
     protected $table = 'questions';
 
     public function keywords() {
-        return $this->hasMany('App\Keyword');
+        return $this->belongsToMany('App\Keyword', 'keywords_questions', 'question_id', 'keyword_id');
     }
 
 }
