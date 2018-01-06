@@ -12,57 +12,34 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
+        // vyprazdenie tabuliek
         DB::table('questions')->delete();
         DB::table('keywords')->delete();
         DB::table('keywords_questions')->delete();
 
-        $q1 = \App\Question::create([
-            'question' => 'question 1',
-            'points' => 10,
-            'practical' => true
-        ]);
+        $this->command->info('Tabulky vyprazdnene');
 
-        $q2 = \App\Question::create([
-            'question' => 'question 2',
-            'points' => 20,
-            'practical' => false
-        ]);
+        // 50 nahodnych otazok
+        factory(App\Question::class, 50)->create();
 
-        $q3 = \App\Question::create([
-            'question' => 'question 3',
-            'points' => 30,
-            'practical' => true
-        ]);
+        $this->command->info('Otazky vygenerovane');
 
-        $this->command->info('Questions added!');
+        // 100 nahodnych klucovych slov
+        factory(App\Keyword::class, 100)->create();
 
-        $k1 = \App\Keyword::create([
-            'keyword' => 'keyword 1'
-        ]);
+        $this->command->info('Klucove slova vygenerovane');
 
-        $k2 = \App\Keyword::create([
-            'keyword' => 'keyword 2'
-        ]);
+        foreach (\App\Question::all() as $question) {
+            // nahodny pocet klucovych slov
+            $count = rand(0, 15);
+            $keywords = \App\Keyword::orderBy(DB::raw('RAND()'))->take($count)->get();
+            foreach ($keywords as $keyword) {
+                // pridanie klucoveho slova k otazke
+                $question->keywords()->attach($keyword->id);
+            }
+        }
 
-        $k3 = \App\Keyword::create([
-            'keyword' => 'keyword 3'
-        ]);
-
-        $this->command->info('Keywords added!');
-
-        $q1->keywords()->attach($k1->id);
-        $q1->keywords()->attach($k2->id);
-        $q1->keywords()->attach($k3->id);
-
-        $q2->keywords()->attach($k3->id);
-
-        $q3->keywords()->attach($k1->id);
-        $q3->keywords()->attach($k2->id);
-
-        $k3->questions()->attach($q1->id);
-
-        $this->command->info('Relations added!');
+        $this->command->info('Hotovo!');
 
     }
 }
