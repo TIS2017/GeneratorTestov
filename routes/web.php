@@ -15,6 +15,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+//Route::get('/','AdminController@nieco');
 
 // zoznam otazok
 Route::get('/questions', 'AdminController@listQuestions');
@@ -26,12 +27,12 @@ Route::get('/questions/add', 'AdminController@addQuestion');
 Route::post('/questions/store', 'AdminController@storeQuestion');
 
 // formular na editaciu otazky
-Route::get('/questions/edit/{id}', 'AdminController@editQuestion');
+Route::get('/questions/edit/{id}', 'AdminController@editQuestion')->where('id', '^[1-9]\d*$');
 
 // vymazanie otazky, ajax
 Route::get('/questions/delete', 'AdminController@deleteQuestion');
 
-// vymazanie otazky, ajax
+// najdenie klucovych slov, ajax
 Route::get('/questions/find_keywords', 'AdminController@findKeywords');
 
 
