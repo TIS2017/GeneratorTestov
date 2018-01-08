@@ -15,7 +15,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-//Route::get('/','AdminController@nieco');
 
 // zoznam otazok
 Route::get('/questions', 'AdminController@listQuestions');
@@ -41,5 +40,5 @@ Route::get('/questions/find_keywords', 'AdminController@findKeywords');
 Route::get('/generator', 'GeneratorController@index');
 
 // generovanie, ajax
-Route::get('/generator/run', 'GeneratorController@generateTest');
+Route::post('/generator/run', 'GeneratorController@generateTest');
 

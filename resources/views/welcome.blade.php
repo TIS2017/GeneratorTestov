@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    nieco
+                    Generátor
                 </div>
 
                 <div class="links">
