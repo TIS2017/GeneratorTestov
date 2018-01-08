@@ -11,9 +11,34 @@
 |
 */
 
+// homepage
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', 'PageController@show');
+// zoznam otazok
+Route::get('/questions', 'AdminController@listQuestions');
+
+// formular na pridanie otazky
+Route::get('/questions/add', 'AdminController@addQuestion');
+
+// ulozenie otazky do DB
+Route::post('/questions/store', 'AdminController@storeQuestion');
+
+// formular na editaciu otazky
+Route::get('/questions/edit/{id}', 'AdminController@editQuestion');
+
+// vymazanie otazky, ajax
+Route::get('/questions/delete', 'AdminController@deleteQuestion');
+
+// vymazanie otazky, ajax
+Route::get('/questions/find_keywords', 'AdminController@findKeywords');
+
+
+
+// formular na zadanie parametrov
+Route::get('/generator', 'GeneratorController@index');
+
+// generovanie, ajax
+Route::get('/generator/run', 'GeneratorController@generateTest');
 
