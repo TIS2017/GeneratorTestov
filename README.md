@@ -1,7 +1,7 @@
 # Generátor testov
 Webová aplikácia pre doc. Šikudovú.
 
-## Installation
+## Inštalácia
 
 ```
 composer install
