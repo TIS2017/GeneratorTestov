@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="styly.css" media="all">
+<title>Generátor testov</title>
+</head>
+<body>
+<div class="bodyStyle">
+	<header>
+		<h1>Generátor testov</h1>
+	</header>
+	<nav>
+		<a href="index.html">Domov</a>
+		<a href="pridajOtazku.html">Pridaj otázku</a>
+		<a href="generator.html">Generátor</a>
+		<a href="administracia.html">Administrácia</a>
+	</nav>
+
+	<section>
+		<p>Formulár na pridanie novej otázky</p>
+		<form action="poPridaniOtazky.html">
+			<label for="znenieOtazky">Znenie otázky</label>
+			<textarea id="znenieOtazky"></textarea>
+
+			<label for="bodoveOhodnotenieOtazky">Bodové ohodnotenie otázky</label>
+			<input type="text" name="bodoveOhodnotenieOtazky" id="bodoveOhodnotenieOtazky">
+
+			<label for="nahrajObrazok">Nahraj obrázok</label>
+			<input type="file" accept="image/*" ID="nahrajObrazok">
+			<input type="button" value="+">
+
+			<label for="klucoveSlova">Kľúčové slová</label>
+			<input type="text" name="klucoveSlova" id="klucoveSlova">
+
+
+			<label for="praktickaOtazka">Praktická otázka</label>
+			<label class="container">Áno
+	  			<input type="radio" name="question" value="True" id="praktickaOtazka">
+	  			<span class="checkmark"></span>
+			</label>
+
+			<label class="container">Nie
+	  			<input type="radio" name="question" value="False">
+	  			<span class="checkmark"></span>
+			</label>
+
+			<input type="submit" value="Pridaj otázku">
+
+		</form>
+	</section>
+
+	<footer>
+		&copy;Vytvoril tím RMC 2017
+	</footer>
+</div>
+</body>
+</html>

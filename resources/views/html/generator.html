@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="styly.css" media="all">
+<title>Generátor testov</title>
+</head>
+<body>
+<div class="bodyStyle">
+	<header>
+		<h1>Generátor testov</h1>
+	</header>
+	<nav>
+		<a href="index.html">Domov</a>
+		<a href="pridajOtazku.html">Pridaj otázku</a>
+		<a href="generator.html">Generátor</a>
+		<a href="administracia.html">Administrácia</a>
+	</nav>
+
+	<section>
+		<p>Generátor nového testu</p>
+		<form action="poVygenerovaniTestu.html">
+			<label for="pocetOtazok">Počet otázok</label>
+			<input type="text" name="PocetOtazok" id="pocetOtazok">
+			
+			<label for="body">Body</label>
+			<input type="text" name="Body" id="body">
+
+			<input type="button" value="+">
+		
+			<label for="pocetPraktickychOtazok">Počet praktických otázok</label>
+			<input type="text" name="PocetPraktickychOtazok" id="pocetPraktickychOtazok">
+
+			<label for="pocetTestov">Počet testov</label>
+			<input type="text" name="pocetTestov" id="pocetTestov">
+
+			<input type="submit" value="Vygeneruj test">
+		</form>
+	</section>
+	<footer>
+		&copy;Vytvoril tím RMC 2017
+	</footer>
+
+</div>
+</body>
+</html>
