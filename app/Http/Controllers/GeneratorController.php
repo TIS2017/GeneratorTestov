@@ -7,18 +7,19 @@ use Illuminate\Support\Facades\Input;
 
 class GeneratorController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         return view('generator');
     }
 
-    public function generateTest(Request $request) {
-        if (\Illuminate\Support\Facades\Request::ajax()) {
-            $optionQuestions = Input::get('optionQuestions');
-            $optionPracticalCount = Input::get('optionPracticalCount');
-            $optionTestsCount = Input::get('optionTestsCount');
+    public function generateTest(Request $request)
+    {
+        if ($request->ajax()) {
             return response()->json([
                 'status' => 'success',
-                'msg' => 'OK'
+                'msg' => 'OK',
+                'request' => $request->all(),
+                'optionQuestions' => json_decode($request->optionQuestions)
             ]);
         }
         return null;

@@ -2,12 +2,12 @@ $(document).ready(function () {
 
     $("#generator-options").submit(function (e) {
         e.preventDefault();
-        let questionOptions = new Map();
+        let questionOptions = {};
         for (let i = 1; i <= $("#option-questions fieldset").length; i++) {
-            let count = $("#questions-" + i + "-count").val();
-            let points = $("#questions-" + i + "-points").val();
+            let count = parseInt($("#questions-" + i + "-count").val());
+            let points = parseInt($("#questions-" + i + "-points").val());
             if (count !== undefined && points !== undefined)
-                questionOptions.set(points, count);
+                questionOptions[points] = count;
         }
         console.log(questionOptions);
         let practicalCount = $("#option-practical-count").val();
@@ -16,9 +16,9 @@ $(document).ready(function () {
         console.log(testsCount);
         $.ajax({
             type: "post",
-            url: "http://generator.local/generator/run",
+            url: "/generator/run",
             data: {
-                optionQuestions: questionOptions,
+                optionQuestions: JSON.stringify(questionOptions),
                 optionPracticalCount: practicalCount,
                 optionTestsCount: testsCount,
                 _token: $("input[name='_token']").val()

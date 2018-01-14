@@ -29291,11 +29291,11 @@ $(document).ready(function () {
 
     $("#generator-options").submit(function (e) {
         e.preventDefault();
-        var questionOptions = new Map();
+        var questionOptions = {};
         for (var i = 1; i <= $("#option-questions fieldset").length; i++) {
-            var count = $("#questions-" + i + "-count").val();
-            var points = $("#questions-" + i + "-points").val();
-            if (count !== undefined && points !== undefined) questionOptions.set(points, count);
+            var count = parseInt($("#questions-" + i + "-count").val());
+            var points = parseInt($("#questions-" + i + "-points").val());
+            if (count !== undefined && points !== undefined) questionOptions[points] = count;
         }
         console.log(questionOptions);
         var practicalCount = $("#option-practical-count").val();
@@ -29304,9 +29304,9 @@ $(document).ready(function () {
         console.log(testsCount);
         $.ajax({
             type: "post",
-            url: "http://generator.local/generator/run",
+            url: "/generator/run",
             data: {
-                optionQuestions: questionOptions,
+                optionQuestions: JSON.stringify(questionOptions),
                 optionPracticalCount: practicalCount,
                 optionTestsCount: testsCount,
                 _token: $("input[name='_token']").val()
