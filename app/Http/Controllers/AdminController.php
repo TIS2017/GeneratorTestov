@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuestion;
 use App\Keyword;
 use App\Question;
 use Illuminate\Http\Request;
@@ -22,15 +23,19 @@ class AdminController extends Controller
 
     public function addQuestion(Request $request)
     {
-        return view('upsert_question');
+        return view('upsert_question', ['question' => null]);
     }
 
     public function editQuestion(Request $request)
     {
-        return view('upsert_question', ['questionId' => $request->id]);
+        $q = Question::find($request->id);
+        if ($q != null) {
+            return view('upsert_question', ['question' => $q]);
+        }
+        return null;
     }
 
-    public function storeQuestion(Request $request)
+    public function storeQuestion(StoreQuestion $request)
     {
         // udaje z formulara
         $question = $request->question;
@@ -54,7 +59,7 @@ class AdminController extends Controller
                 $file->store('public/question_images/' . $q->id);
             }
         }
-        return view('store_question');
+        return view('store_question', ['question' => $q]);
     }
 
     public function deleteQuestion(Request $request)

@@ -30,14 +30,14 @@
                 <form method="post" action="/questions/store" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <label for="question">Znenie otázky</label>
-                    <textarea name="question" id="question"></textarea>
+                    <textarea name="question" id="question">{{ old('question') }}</textarea>
                     <label for="points">Bodové ohodnotenie otázky</label>
-                    <input type="text" name="points" id="points">
+                    <input type="text" name="points" id="points" value="{{ old('points') }}">
                     <label for="images">Nahraj obrázok</label>
                     <input name="images[]" type="file" accept="image/*" id="images" multiple>
                     <label for="keywords">Kľúčové slová</label>
-                    <input type="text" name="keywords" id="keywords">
-                    <input type="checkbox" name="practical" value="1" id="practical"><label for="practical">Praktická</label>
+                    <input type="text" name="keywords" id="keywords" value="{{ old('keywords') }}">
+                    <input type="checkbox" name="practical" value="1" id="practical" {{ old('practical') ? 'checked' : '' }}><label for="practical">Praktická</label>
                     <input type="submit" value="Pridaj otázku">
                 </form>
             </section>
