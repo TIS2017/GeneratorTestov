@@ -8,7 +8,12 @@ composer install
 npm install
 ```
 
-## Create database structure
+## Vytvorenie databázy
 ```
 php artisan migrate
+```
+
+## Naplnenie databázy náhodnými dátami
+```
+php artisan db:seed
 ```
