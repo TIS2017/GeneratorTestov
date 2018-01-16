@@ -21,9 +21,7 @@
             <section>
                 <p>Otázka bola úspešne pridaná</p>
                 <br>
-                <form action="pridajOtazku.html">
-                    <input type="submit" value="Pridaj ďaľšiu otázku">
-                </form>
+                <a href="/questions/add">Pridaj ďalšiu otázku</a>
             </section>
 
             <footer>
