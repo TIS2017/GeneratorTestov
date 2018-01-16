@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Keyword;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -21,17 +22,39 @@ class AdminController extends Controller
 
     public function addQuestion(Request $request)
     {
-        var_dump('addQuestions');
+        return view('upsert_question');
     }
 
     public function editQuestion(Request $request)
     {
-        var_dump('editQuestions', $request->id);
+        return view('upsert_question', ['questionId' => $request->id]);
     }
 
     public function storeQuestion(Request $request)
     {
-        var_dump('storeQuestions');
+        // udaje z formulara
+        $question = $request->question;
+        $points = $request->points;
+        $keywords = explode(',', $request->keywords);
+        $practical = $request->has('practical') ? true : false;
+        // ulozenie otazky do DB
+        $q = Question::create(['question' => $question, 'points' => $points, 'practical' => $practical]);
+        // pripojenie klucovych slov k otazke
+        foreach ($keywords as $keyword) {
+            $k = Keyword::create(['keyword' => $keyword]);
+            $q->keywords()->attach($k->id);
+        }
+        // ulozenie obrazkov
+        if ($request->hasFile('images')) {
+            $files = $request->file('images');
+            // vytvorenie priecinka pre otazku
+            // ak je vytvoreny, novy nevytvara
+            Storage::makeDirectory('public/question_images/' . $q->id);
+            foreach ($files as $file) {
+                $file->store('public/question_images/' . $q->id);
+            }
+        }
+        return view('store_question');
     }
 
     public function deleteQuestion(Request $request)
