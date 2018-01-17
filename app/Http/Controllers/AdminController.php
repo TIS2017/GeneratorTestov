@@ -114,7 +114,14 @@ class AdminController extends Controller
 
     public function deleteQuestionImage(Request $request)
     {
-
+        if ($request->ajax()) {
+            $imagePath = $request->imagePath;
+            Storage::delete($imagePath);
+            return response()->json([
+                'msg' => 'OK'
+            ]);
+        }
+        return null;
     }
 
     public function deleteQuestion(Request $request)

@@ -39,6 +39,7 @@
                     @isset($questionImages)
                         @foreach($questionImages as $image)
                             <image src="{{ Storage::url($image) }}" />
+                            <button image="{{ $image }}" class="delete-question-image">Vymazat obrazok</button>
                         @endforeach
                     @endisset
                     <label for="keywords">Kľúčové slová</label>

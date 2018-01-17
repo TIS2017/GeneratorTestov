@@ -42,3 +42,4 @@ Route::get('/generator', 'GeneratorController@index');
 // generovanie, ajax
 Route::post('/generator/run', 'GeneratorController@generateTest');
 
+Route::post('/delete_question_image', 'AdminController@deleteQuestionImage');
