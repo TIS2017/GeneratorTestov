@@ -30,7 +30,8 @@ class AdminController extends Controller
     {
         $q = Question::find($request->id);
         if ($q != null) {
-            return view('upsert_question', ['question' => $q]);
+            $questionImages = Storage::files('public/question_images/' . $q->id);
+            return view('upsert_question', ['question' => $q, 'questionImages' => $questionImages]);
         }
         return null;
     }
@@ -109,6 +110,11 @@ class AdminController extends Controller
             $keywords[] = $keyword->keyword;
         }
         return $keywords;
+    }
+
+    public function deleteQuestionImage(Request $request)
+    {
+
     }
 
     public function deleteQuestion(Request $request)

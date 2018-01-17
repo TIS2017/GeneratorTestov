@@ -36,6 +36,11 @@
                     <input type="text" name="points" id="points" value="{{ old('points') }}">
                     <label for="images">Nahraj obrázok</label>
                     <input name="images[]" type="file" accept="image/*" id="images" multiple>
+                    @isset($questionImages)
+                        @foreach($questionImages as $image)
+                            <image src="{{ Storage::url($image) }}" />
+                        @endforeach
+                    @endisset
                     <label for="keywords">Kľúčové slová</label>
                     <input type="text" name="keywords" id="keywords" value="{{ old('keywords') }}">
                     <input type="checkbox" name="practical" value="1" id="practical" {{ old('practical') ? 'checked' : '' }}><label for="practical">Praktická</label>
