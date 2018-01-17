@@ -25,9 +25,7 @@
                         {{ $question->id }} - {{ $question->question }}
                     </div>
                     <div class="btn-group">
-                        <form action="pridajOtazku.html">
-                            <button>Uprav</button>
-                        </form>
+                        <a href="/questions/edit/{{ $question->id }}">Uprav</a>
                         <button>Zmaž</button>
                     </div>
                     {{--@foreach($question_images[$question->id] as $image)--}}

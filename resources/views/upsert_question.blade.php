@@ -29,8 +29,9 @@
                 @endif
                 <form method="post" action="/questions/store" enctype="multipart/form-data">
                     {{ csrf_field() }}
+                    <input type="hidden" value="{{ $question != null ? $question->id : '' }}" name="id">
                     <label for="question">Znenie otázky</label>
-                    <textarea name="question" id="question">{{ old('question') }}</textarea>
+                    <textarea name="question" id="question">{{ $errors->any() ? old('question') : ($question != null ? $question->question : '')  }}</textarea>
                     <label for="points">Bodové ohodnotenie otázky</label>
                     <input type="text" name="points" id="points" value="{{ old('points') }}">
                     <label for="images">Nahraj obrázok</label>

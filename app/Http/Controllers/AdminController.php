@@ -37,29 +37,78 @@ class AdminController extends Controller
 
     public function storeQuestion(StoreQuestion $request)
     {
+        $update = $request->id != '';
+        if (!$update) {
+            $q = new Question;
+        } else {
+            $q = Question::find($request->id);
+            if ($q == null) {
+                return null;
+            }
+        }
         // udaje z formulara
         $question = $request->question;
         $points = $request->points;
         $keywords = explode(',', $request->keywords);
         $practical = $request->has('practical') ? true : false;
         // ulozenie otazky do DB
-        $q = Question::create(['question' => $question, 'points' => $points, 'practical' => $practical]);
+        $q->question = $question;
+        $q->points = $points;
+        $q->practical = $practical;
+        $oldKeywords = $this->getOldKeywords($q);
+        $newKeywordsIDs = [];
         // pripojenie klucovych slov k otazke
         foreach ($keywords as $keyword) {
-            $k = Keyword::create(['keyword' => $keyword]);
-            $q->keywords()->attach($k->id);
-        }
-        // ulozenie obrazkov
-        if ($request->hasFile('images')) {
-            $files = $request->file('images');
-            // vytvorenie priecinka pre otazku
-            // ak je vytvoreny, novy nevytvara
-            Storage::makeDirectory('public/question_images/' . $q->id);
-            foreach ($files as $file) {
-                $file->store('public/question_images/' . $q->id);
+            if (strlen($keyword) > 0) {
+                $k = Keyword::where('keyword', $keyword)->first();
+                if ($k == null) {
+                    $k = Keyword::create(['keyword' => $keyword]);
+                } else {
+                    $index = array_search($keyword, $oldKeywords);
+                    if (!$index) {
+                        unset($oldKeywords[$index]);
+                    }
+                }
+                $newKeywordsIDs[] = $k->id;
             }
         }
-        return view('store_question', ['question' => $q]);
+        $q->save();
+        $q->keywords()->sync($newKeywordsIDs);
+        $this->tryToDeleteKeywords($oldKeywords);
+        // ulozenie obrazkov
+        if ($request->hasFile('images')) {
+            $this->saveImages($request->file('images'), $q->id);
+        }
+        return view('store_question');
+    }
+
+    private function tryToDeleteKeywords($keywords)
+    {
+        foreach ($keywords as $keyword) {
+            $k = Keyword::where('keyword', $keyword)->first();
+            if ($k != null && $k->questions->isEmpty()) {
+                $k->delete();
+            }
+        }
+    }
+
+    private function saveImages($files, $questionID)
+    {
+        // vytvorenie priecinka pre otazku
+        // ak je vytvoreny, novy nevytvara
+        Storage::makeDirectory('public/question_images/' . $questionID);
+        foreach ($files as $file) {
+            $file->store('public/question_images/' . $questionID);
+        }
+    }
+
+    private function getOldKeywords($question)
+    {
+        $keywords = [];
+        foreach ($question->keywords as $keyword) {
+            $keywords[] = $keyword->keyword;
+        }
+        return $keywords;
     }
 
     public function deleteQuestion(Request $request)
