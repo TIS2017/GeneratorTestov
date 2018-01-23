@@ -29,7 +29,7 @@ Route::post('/questions/store', 'AdminController@storeQuestion');
 Route::get('/questions/edit/{id}', 'AdminController@editQuestion')->where('id', '^[1-9]\d*$');
 
 // vymazanie otazky, ajax
-Route::get('/questions/delete', 'AdminController@deleteQuestion');
+Route::post('/questions/delete', 'AdminController@deleteQuestion');
 
 // najdenie klucovych slov, ajax
 Route::get('/questions/find_keywords', 'AdminController@findKeywords');

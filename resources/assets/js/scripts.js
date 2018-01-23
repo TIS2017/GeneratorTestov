@@ -18,5 +18,25 @@ $(document).ready(function () {
             console.log('done');
             console.log(msg);
         })
-    })
-})
+    });
+
+    $(".delete-question").on("click", function (e) {
+        e.preventDefault();
+        let questionId = $(this).attr('id').split('-')[1];
+        if (questionId) {
+            $.ajax({
+                type: 'POST',
+                url: '/questions/delete',
+                data: {
+                    id: questionId
+                }
+            }).done(function (e) {
+                console.log('done');
+                console.log(e);
+            }).fail(function (e) {
+                console.log('fail');
+                console.log(e);
+            })
+        }
+    });
+});

@@ -13,5 +13,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'delete_question_image',
+        'questions/delete'
     ];
 }

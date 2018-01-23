@@ -26,7 +26,7 @@
                     </div>
                     <div class="btn-group">
                         <a href="/questions/edit/{{ $question->id }}">Uprav</a>
-                        <button>Zmaž</button>
+                        <a href="/questions/delete" id="question-{{ $question->id }}" class="delete-question">Zmaž</a>
                     </div>
                     {{--@foreach($question_images[$question->id] as $image)--}}
                         {{--<img src="{{ Storage::url($image) }}">--}}

@@ -126,7 +126,17 @@ class AdminController extends Controller
 
     public function deleteQuestion(Request $request)
     {
-        var_dump('deleteQuestions');
+        if ($request->ajax()) {
+            $question = Question::find($request->id);
+            if ($question == null) {
+                return null;
+            }
+            $question->delete();
+            return response()->json([
+                'msg' => 'deleted'
+            ]);
+        }
+        return null;
     }
 
     public function findKeywords(Request $request)
