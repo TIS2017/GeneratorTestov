@@ -31,7 +31,12 @@ class AdminController extends Controller
         $q = Question::find($request->id);
         if ($q != null) {
             $questionImages = Storage::files('public/question_images/' . $q->id);
-            return view('upsert_question', ['question' => $q, 'questionImages' => $questionImages]);
+            $questionKeywords = '';
+            foreach ($q->keywords as $i => $keyword) {
+                $questionKeywords .= $i != 0 ? ',' : '';
+                $questionKeywords .= $keyword->keyword;
+            }
+            return view('upsert_question', ['question' => $q, 'questionImages' => $questionImages, 'question_keywords' => $questionKeywords]);
         }
         return null;
     }

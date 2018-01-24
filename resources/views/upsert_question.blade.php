@@ -31,9 +31,9 @@
                     {{ csrf_field() }}
                     <input type="hidden" value="{{ $question != null ? $question->id : '' }}" name="id">
                     <label for="question">Znenie otázky</label>
-                    <textarea name="question" id="question">{{ $errors->any() ? old('question') : ($question != null ? $question->question : '')  }}</textarea>
+                    <textarea name="question" id="question">{{ $errors->any() ? old('question') : ($question ? $question->question : '')  }}</textarea>
                     <label for="points">Bodové ohodnotenie otázky</label>
-                    <input type="text" name="points" id="points" value="{{ old('points') }}">
+                    <input type="text" name="points" id="points" value="{{ $errors->any() ? old('points') : ($question ? $question->points : '')  }}">
                     <label for="images">Nahraj obrázok</label>
                     <input name="images[]" type="file" accept="image/*" id="images" multiple>
                     @isset($questionImages)
@@ -43,9 +43,9 @@
                         @endforeach
                     @endisset
                     <label for="keywords">Kľúčové slová</label>
-                    <input type="text" name="keywords" id="keywords" value="{{ old('keywords') }}">
-                    <input type="checkbox" name="practical" value="1" id="practical" {{ old('practical') ? 'checked' : '' }}><label for="practical">Praktická</label>
-                    <input type="submit" value="Pridaj otázku">
+                    <input type="text" name="keywords" id="keywords" value="{{ $errors->any() ? old('keywords') : ($question ? $question_keywords : '')  }}">
+                    <input type="checkbox" name="practical" value="1" id="practical" {{ ($errors->any()&&old('practical')||$question&&$question->practical) ? 'checked' : ''  }}><label for="practical">Praktická</label>
+                    <input type="submit" value="{{ $question ? 'Uprav otázku' : 'Pridaj otázku' }}">
                 </form>
             </section>
 

@@ -21,21 +21,15 @@
                 <p>Administrácia otázok</p>
                 <br>
                 @foreach($questions as $question)
-                    <div class="questionBlock">
-                        {{ $question->id }} - {{ $question->question }}
+                    <div class="question" id="question-{{ $question->id }}">
+                        <div class="questionBlock">
+                            {{ $question->id }} - {{ $question->question }}
+                        </div>
+                        <div class="btn-group">
+                            <a href="/questions/edit/{{ $question->id }}">Uprav</a>
+                            <a href="/questions/delete" class="delete-question">Zmaž</a>
+                        </div>
                     </div>
-                    <div class="btn-group">
-                        <a href="/questions/edit/{{ $question->id }}">Uprav</a>
-                        <a href="/questions/delete" id="question-{{ $question->id }}" class="delete-question">Zmaž</a>
-                    </div>
-                    {{--@foreach($question_images[$question->id] as $image)--}}
-                        {{--<img src="{{ Storage::url($image) }}">--}}
-                    {{--@endforeach--}}
-                    {{--<ul>--}}
-                        {{--@foreach($question->keywords as $keyword)--}}
-                            {{--<li>{{ $keyword->keyword }}</li>--}}
-                        {{--@endforeach--}}
-                    {{--</ul>--}}
                 @endforeach
                 {{ $questions->links() }}
             </section>

@@ -7,12 +7,12 @@ $(document).ready(function () {
             type: "POST",
             url: "/delete_question_image",
             data: {
-               imagePath: imagePath
+                imagePath: imagePath
             },
-            error:function (e) {
+            error: function (e) {
                 console.error(e);
             }
-        }).fail(function(jqXHR, textStatus){
+        }).fail(function (jqXHR, textStatus) {
             console.log('fail');
         }).done(function (msg) {
             console.log('done');
@@ -22,21 +22,28 @@ $(document).ready(function () {
 
     $(".delete-question").on("click", function (e) {
         e.preventDefault();
-        let questionId = $(this).attr('id').split('-')[1];
-        if (questionId) {
-            $.ajax({
-                type: 'POST',
-                url: '/questions/delete',
-                data: {
-                    id: questionId
-                }
-            }).done(function (e) {
-                console.log('done');
-                console.log(e);
-            }).fail(function (e) {
-                console.log('fail');
-                console.log(e);
-            })
+        if (!confirm('Naozaj chcete vymazať otázku?')) {
+            return;
         }
+        let questionRow = $(this).parent('div').parent('div');
+        if (questionRow) {
+            let questionId = questionRow.attr('id').split('-')[1];
+            if (questionId) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/questions/delete',
+                    data: {
+                        id: questionId
+                    }
+                }).done(function (e) {
+                    console.log('done');
+                    questionRow.remove();
+                }).fail(function (e) {
+                    console.log('fail');
+                    console.log(e);
+                })
+            }
+        }
+
     });
 });
