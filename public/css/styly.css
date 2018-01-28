@@ -61,6 +61,12 @@ nav a{
 	font-family: 'Ubuntu Condensed', sans-serif;
 }
 
+fieldset {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
 nav a:hover{
 	color:PeachPuff;
 	text-decoration: none;

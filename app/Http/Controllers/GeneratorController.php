@@ -2,15 +2,26 @@
 
 namespace App\Http\Controllers;
 
-//use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class GeneratorController extends Controller
 {
-    public function index() {
-        var_dump('generator index');
+    public function index(Request $request)
+    {
+        return view('generator');
     }
 
-    public function generateTest() {
-        var_dump('generateTest');
+    public function generateTest(Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json([
+                'status' => 'success',
+                'msg' => 'OK',
+                'request' => $request->all(),
+                'optionQuestions' => json_decode($request->optionQuestions)
+            ]);
+        }
+        return null;
     }
 }
