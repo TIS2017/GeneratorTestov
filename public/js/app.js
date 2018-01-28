@@ -29322,7 +29322,60 @@ $(document).ready(function () {
         var i = fieldsetCount + 1;
         var $fieldset = "<fieldset id='" + i + "'>" + "               <label for='questions-" + i + "-count'>Počet otázok</label>" + "               <input type='text' name='questions[" + i + "][count]' id='questions-" + i + "-count'>" + "               <label for='questions-" + i + "-points'>Body</label>" + "               <input type='text' name='questions[" + i + "][points]' id='questions-" + i + "-points'>" + "             </fieldset>";
         $("#option-questions").append($fieldset);
+     });
+
+    // mazanie obrazku pri upravovani otazky
+    $(".delete-question-image").on("click", function (e) {
+        e.preventDefault();
+        var imagePath = $(this).attr("image");
+        var imageParent = $(this).parent('div');
+        $.ajax({
+            type: "POST",
+            url: "/delete_question_image",
+            data: {
+                imagePath: imagePath
+            }
+        }).done(function (msg) {
+            if (msg.ok) {
+                imageParent.remove();
+            }
+        }).fail(function (msg) {
+            console.error(msg);
+        });
     });
+
+    // mazanie otazky
+    $(".delete-question").on("click", function (e) {
+        e.preventDefault();
+        if (!confirm('Naozaj chcete vymazať otázku?')) {
+            return;
+        }
+        var questionRow = $(this).parent('div').parent('div');
+        if (questionRow) {
+            var questionId = questionRow.attr('id').split('-')[1];
+            if (questionId == null) {
+                alert("Otázku sa nepodarilo vymazať.");
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/questions/delete',
+                data: {
+                    id: questionId
+                }
+            }).done(function (msg) {
+                if (msg.ok) {
+                    questionRow.remove();
+                    alert("Otázka bola úspešne vymazaná.");
+                } else {
+                    alert("Otázku sa nepodarilo vymazať.");
+                }
+            }).fail(function (msg) {
+                console.error(msg);
+            });
+        }
+    });
+  
 });
 
 /***/ })

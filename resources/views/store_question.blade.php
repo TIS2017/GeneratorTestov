@@ -17,22 +17,13 @@
                 <a href="generator.html">Generátor</a>
                 <a href="administracia.html">Administrácia</a>
             </nav>
+
             <section>
-                <p>Administrácia otázok</p>
+                <p>Otázka bola úspešne pridaná</p>
                 <br>
-                @foreach($questions as $question)
-                    <div class="question" id="question-{{ $question->id }}">
-                        <div class="questionBlock">
-                            {{ $question->id }} - {{ $question->question }}
-                        </div>
-                        <div class="btn-group">
-                            <a href="/questions/edit/{{ $question->id }}">Uprav</a>
-                            <a href="/questions/delete" class="delete-question">Zmaž</a>
-                        </div>
-                    </div>
-                @endforeach
-                {{ $questions->links() }}
+                <a href="/questions/add">Pridaj ďalšiu otázku</a>
             </section>
+
             <footer>
                 &copy;Vytvoril tím RMC 2017
             </footer>
