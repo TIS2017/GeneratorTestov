@@ -1,25 +1,26 @@
 $(document).ready(function () {
+
+    // mazanie obrazku pri upravovani otazky
     $(".delete-question-image").on("click", function (e) {
         e.preventDefault();
         let imagePath = $(this).attr("image");
-        console.log(imagePath);
+        let imageParent = $(this).parent('div');
         $.ajax({
             type: "POST",
             url: "/delete_question_image",
             data: {
                 imagePath: imagePath
             },
-            error: function (e) {
-                console.error(e);
-            }
-        }).fail(function (jqXHR, textStatus) {
-            console.log('fail');
         }).done(function (msg) {
-            console.log('done');
-            console.log(msg);
+            if (msg.ok) {
+                imageParent.remove();
+            }
+        }).fail(function (msg) {
+            console.error(msg);
         })
     });
 
+    // mazanie otazky
     $(".delete-question").on("click", function (e) {
         e.preventDefault();
         if (!confirm('Naozaj chcete vymazať otázku?')) {
@@ -28,21 +29,26 @@ $(document).ready(function () {
         let questionRow = $(this).parent('div').parent('div');
         if (questionRow) {
             let questionId = questionRow.attr('id').split('-')[1];
-            if (questionId) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/questions/delete',
-                    data: {
-                        id: questionId
-                    }
-                }).done(function (e) {
-                    console.log('done');
-                    questionRow.remove();
-                }).fail(function (e) {
-                    console.log('fail');
-                    console.log(e);
-                })
+            if (questionId == null) {
+                alert("Otázku sa nepodarilo vymazať.");
+                return;
             }
+            $.ajax({
+                type: 'POST',
+                url: '/questions/delete',
+                data: {
+                    id: questionId
+                }
+            }).done(function (msg) {
+                if (msg.ok) {
+                    questionRow.remove();
+                    alert("Otázka bola úspešne vymazaná.");
+                } else {
+                    alert("Otázku sa nepodarilo vymazať.");
+                }
+            }).fail(function (msg) {
+                console.error(msg);
+            })
         }
 
     });

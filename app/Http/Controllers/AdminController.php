@@ -91,7 +91,11 @@ class AdminController extends Controller
     private function tryToDeleteKeywords($keywords)
     {
         foreach ($keywords as $keyword) {
-            $k = Keyword::where('keyword', $keyword)->first();
+            if (is_string($keyword)) {
+                $k = Keyword::where('keyword', $keyword)->first();
+            } else {
+                $k = $keyword;
+            }
             if ($k != null && $k->questions->isEmpty()) {
                 $k->delete();
             }
@@ -121,9 +125,8 @@ class AdminController extends Controller
     {
         if ($request->ajax()) {
             $imagePath = $request->imagePath;
-            Storage::delete($imagePath);
             return response()->json([
-                'msg' => 'OK'
+                'ok' => Storage::delete($imagePath)
             ]);
         }
         return null;
@@ -134,11 +137,19 @@ class AdminController extends Controller
         if ($request->ajax()) {
             $question = Question::find($request->id);
             if ($question == null) {
-                return null;
+                return response()->json([
+                    'ok' => false,
+                ]);
             }
+            $keywords = $question->keywords;
+            // vymazanie otazky
             $question->delete();
+            // vymazanie vsetkych obrazkov a priecinka
+            Storage::deleteDirectory('public/question_images/' . $request->id);
+            // vymazanie klucovych slov
+            $this->tryToDeleteKeywords($keywords);
             return response()->json([
-                'msg' => 'deleted'
+                'ok' => true
             ]);
         }
         return null;

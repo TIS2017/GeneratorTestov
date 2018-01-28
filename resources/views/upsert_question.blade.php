@@ -37,9 +37,11 @@
                     <label for="images">Nahraj obrázok</label>
                     <input name="images[]" type="file" accept="image/*" id="images" multiple>
                     @isset($questionImages)
-                        @foreach($questionImages as $image)
-                            <image src="{{ Storage::url($image) }}" />
-                            <button image="{{ $image }}" class="delete-question-image">Vymazat obrazok</button>
+                        @foreach($questionImages as $key => $image)
+                            <div id="image-{{ $key }}">
+                                <image src="{{ Storage::url($image) }}" />
+                                <button image="{{ $image }}" class="delete-question-image">Vymazat obrazok</button>
+                            </div>
                         @endforeach
                     @endisset
                     <label for="keywords">Kľúčové slová</label>
