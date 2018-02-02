@@ -17,6 +17,11 @@ php artisan migrate
 ```
 php artisan db:seed
 ```
+
+## Generovanie kľúča
+```
+php artisan key:generate
+```
 ## Compiling assets
 Run this command
 ```
