@@ -9,11 +9,8 @@ $(document).ready(function () {
             if (count !== undefined && points !== undefined)
                 questionOptions[points] = count;
         }
-        console.log(questionOptions);
         let practicalCount = $("#option-practical-count").val();
-        console.log(practicalCount);
         let testsCount = $("#option-tests-count").val();
-        console.log(testsCount);
         $.ajax({
             type: "post",
             url: "/generator/run",

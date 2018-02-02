@@ -13,23 +13,27 @@
 
 // homepage
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('home');
 
 // zoznam otazok
-Route::get('/questions', 'AdminController@listQuestions');
+Route::get('/questions', 'AdminController@listQuestions')
+    ->name('administration');
 
 // formular na pridanie otazky
-Route::get('/questions/add', 'AdminController@addQuestion');
+Route::get('/questions/add', 'AdminController@addQuestion')
+    ->name('add_question');
 
 // ulozenie otazky do DB
 Route::post('/questions/store', 'AdminController@storeQuestion');
 
 // formular na editaciu otazky
-Route::get('/questions/edit/{id}', 'AdminController@editQuestion')->where('id', '^[1-9]\d*$');
+Route::get('/questions/edit/{id}', 'AdminController@editQuestion')->where('id', '^[1-9]\d*$')
+    ->name('edit_question');
 
 // vymazanie otazky, ajax
-Route::post('/questions/delete', 'AdminController@deleteQuestion');
+Route::post('/questions/delete', 'AdminController@deleteQuestion')
+    ->name('delete_question');
 
 // najdenie klucovych slov, ajax
 Route::get('/questions/find_keywords', 'AdminController@findKeywords');
@@ -37,7 +41,8 @@ Route::get('/questions/find_keywords', 'AdminController@findKeywords');
 
 
 // formular na zadanie parametrov
-Route::get('/generator', 'GeneratorController@index');
+Route::get('/generator', 'GeneratorController@index')
+    ->name('generator');
 
 // generovanie, ajax
 Route::post('/generator/run', 'GeneratorController@generateTest');
