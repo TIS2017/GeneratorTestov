@@ -23,47 +23,69 @@ class GeneratorController extends Controller
     # generuje testy podla parametrov
     public function generateTest(Request $request)
     {
-        if ($request->ajax()) {
-            $practicalCount = intval($request->optionPracticalCount);
-            $questiosOptions = json_decode($request->optionQuestions);
-            $testCount = intval($request->optionTestsCount);
-            $result = array();
+        if (!$request->ajax()) {
+            return null;
+        }
 
-            # ak je pocet mensi ako 1 tak koniec
-            if ($testCount < 1) {
-                return response()->json([
-                    'status' => false,
-                    'msg' => 'Je potrebný aspoň jeden test!'
-                ]);
-            }
-
-            # generovanie testov podla zadaneho poctu
-            while ($testCount > 0) {
-                # funkcia, ktora sa stara o generovanie
-                $generationResult = $this->generateTestQuestions($questiosOptions, $practicalCount);
-                # ak generator vrati null (nie je mozne vygenerovat test tak koncim)
-                if ($generationResult == null) {
-                    return response()->json([
-                        'status' => false,
-                        'msg' => 'Nie je možné vygenerovať test so zadanými parametrami!'
-                    ]);
-                }
-                array_push($result, $generationResult);
-                $testCount--;
-            }
-
-            # vygeneruje PDF subor
-            $pdf_file = $this->generatePDF($result);
-
-            # resposne ak vsetko prebehlo OK
+        // pocet praktickych otazok musi byt cele cislo
+        if (!is_numeric($request->optionPracticalCount)) {
             return response()->json([
-                'pdf_file' => $pdf_file,
-                'status' => true,
-                'msg' => 'Test bol úspešne vygenerovaný!'
+                'status' => false,
+                'msg' => 'Počet praktických otázok musí byť celé číslo!',
+                'req' => $request->optionPracticalCount
+            ]);
+        }
+        $practicalCount = intval($request->optionPracticalCount);
+        if ($practicalCount < 0) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Neplatný počet praktických otázok'
             ]);
         }
 
-        return null;
+        if (!is_numeric($request->optionTestsCount)) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Počet testov musí byť celé číslo!'
+            ]);
+        }
+        $testCount = intval($request->optionTestsCount);
+        # ak je pocet mensi ako 1 tak koniec
+        if ($testCount < 1) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Neplatný počet testov!'
+            ]);
+        }
+
+        $questiosOptions = json_decode($request->optionQuestions);
+        $result = array();
+
+        # generovanie testov podla zadaneho poctu
+        while ($testCount > 0) {
+            # funkcia, ktora sa stara o generovanie
+            $generationResult = $this->generateTestQuestions($questiosOptions, $practicalCount);
+            # ak generator vrati null (nie je mozne vygenerovat test tak koncim)
+            if ($generationResult == null) {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Nie je možné vygenerovať test so zadanými parametrami!'
+                ]);
+            }
+            array_push($result, $generationResult);
+            $testCount--;
+        }
+
+        # vygeneruje PDF subor
+        $pdf_file = $this->generatePDF($result);
+
+        # resposne ak vsetko prebehlo OK
+        return response()->json([
+            'pdf_file' => $pdf_file,
+            'status' => true,
+            'msg' => 'Test bol úspešne vygenerovaný!'
+        ]);
+
     }
 
     # funkcia generuje test podla zadanych parametrov
