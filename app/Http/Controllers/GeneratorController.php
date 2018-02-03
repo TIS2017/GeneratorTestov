@@ -7,9 +7,11 @@ use Hamcrest\Core\Set;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Expr\Cast\Object_;
+use Illuminate\Support\Facades\Storage;
 use function Sodium\add;
-use tcpdf;
+use TCPDF;
 
 class GeneratorController extends Controller
 {
@@ -18,6 +20,7 @@ class GeneratorController extends Controller
         return view('generator');
     }
 
+    # generuje testy podla parametrov
     public function generateTest(Request $request)
     {
         if ($request->ajax()) {
@@ -25,7 +28,8 @@ class GeneratorController extends Controller
             $questiosOptions = json_decode($request->optionQuestions);
             $testCount = intval($request->optionTestsCount);
             $result = array();
-            # generuje testy podla zadaneho poctu
+
+            # ak je pocet mensi ako 1 tak koniec
             if ($testCount < 1) {
                 return response()->json([
                     'status' => 'failed',
@@ -35,15 +39,19 @@ class GeneratorController extends Controller
                 ]);
             }
 
+            # generovanie testov podla zadaneho poctu
             while ($testCount > 0) {
                 # funkcia, ktora sa stara o generovanie
                 array_push($result, $this->generateTestQuestions($questiosOptions, $practicalCount));
                 $testCount--;
             }
 
+            # vygeneruje PDF subor
+            $this->generatePDF($result);
 
+            # resposne ak vsetko prebehlo OK
             return response()->json([
-                'test' => $result,
+                'result' => $result,
                 'status' => 'success',
                 'msg' => 'OK',
                 'request' => $request->all(),
@@ -115,18 +123,19 @@ class GeneratorController extends Controller
                     break;
                 }
             }
+
+            #nebol vybraty pozadovany celkovy pocet otazok pre test
+            if (count($testQuestions) < $temporatyCount + $questionCount) {
+                return null;
+            }
         }
 
-        #nebol vybraty pozadovany celkovy pocet otazok pre test
-        if (count($testQuestions) < $temporatyCount + $questionCount) {
-            return null;
-        }
-
+        # vrati pole s vygenerovanymi testami
         return $testQuestions;
     }
 
-    # pripravena dummy funkcia na generovanie pdf
-    private function generatePDF()
+    # generovanie PDF suboru s otazkami
+    private function generatePDF($tests)
     {
 
         # zakladne nastavenia pre generovanie PDF
@@ -135,11 +144,34 @@ class GeneratorController extends Controller
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
 
-        $pdf->AddPage();
-        $txt = "NEJAKY TEXT";
+        # pre kazdy vygenerovany test prida otazky do PDF
+        foreach ($tests as $test){
+            $pdf->AddPage();
+            $questionNumber = 1;
+            foreach ($test as $questions){
+                $question = (string)$questionNumber . ".    ";
+                $question .= (string)$questions->question. '    ';
+                $question .= "[" . (string)$questions->points . "]\n";
+                # cesta v obrazkom
+                # pozrie ci cesta existuje
+                try {
+                    $path = Storage::files('public/question_images/' . $questions->id . '/');
+                    # ak ano prejde vsetky obrazky v zlozke a prida ich do PDF suboru
+                    foreach ($path as $image) {
+                        Log::info($image);
+                        #TODO nepridava obrazok do PDF
+                        $pdf->Image($image, "10", "20", "100", "100");
+                    }
+                }catch (\Exception $e){
+                    Log::info($e);
+                }
 
-        $pdf->Write(0, $txt);
-
-        $pdf->Output('/storage/app/public/testy/test.pdf', 'F');
+                $pdf->Write(0, $question);
+                $questionNumber++;
+            }
+        }
+        # ulozi subor na disk
+        # TODO fixnut ukladanie do /storage/app/public/
+        $pdf->Output(__DIR__.'/test.pdf', 'F');
     }
 }
