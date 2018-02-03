@@ -44,11 +44,11 @@ class GeneratorController extends Controller
                 # funkcia, ktora sa stara o generovanie
                 $generationResult = $this->generateTestQuestions($questiosOptions, $practicalCount);
                 # ak generator vrati null (nie je mozne vygenerovat test tak koncim)
-                if ($generationResult == null){
+                if ($generationResult == null) {
                     return response()->json([
                         'status' => 'failed',
                         'mgs' => 'nie je mozne generovat test so zadanymi parametrami'
-                        ]);
+                    ]);
                 }
                 array_push($result, $generationResult);
                 $testCount--;
@@ -152,34 +152,33 @@ class GeneratorController extends Controller
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
 
+        # cela cesta k /storage/app/
+        $path = storage_path() . '/app/';
+
         # pre kazdy vygenerovany test prida otazky do PDF
-        foreach ($tests as $test){
+        foreach ($tests as $test) {
             $pdf->AddPage();
             $questionNumber = 1;
-            foreach ($test as $questions){
-                $question = (string)$questionNumber . ".    ";
-                $question .= (string)$questions->question. '    ';
+            foreach ($test as $questions) {
+                $question = "<html>";
+                $question .= (string)$questionNumber . ".    ";
+                $question .= (string)$questions->question . '    ';
                 $question .= "[" . (string)$questions->points . "]\n";
                 # cesta v obrazkom
-                # pozrie ci cesta existuje
-                try {
-                    $path = Storage::files('public/question_images/' . $questions->id . '/');
-                    # ak ano prejde vsetky obrazky v zlozke a prida ich do PDF suboru
-                    foreach ($path as $image) {
-                        Log::info($image);
-                        #TODO nepridava obrazok do PDF
-                        $pdf->Image($image, "10", "20", "100", "100");
-                    }
-                }catch (\Exception $e){
-                    Log::info($e);
-                }
+                # ak ano prejde vsetky obrazky v zlozke a prida ich do PDF suboru
+                $images = Storage::files('public/question_images/318');
+                foreach ($images as $image) {
+                    $question .= '<br>';
+                    Log::info($image);
+                    $question .= '<img src="' . $path . (string)$image . '" style="padding-bottom:10px">';
 
-                $pdf->Write(0, $question);
+                }
+                $question .= "</html>";
+                $pdf->WriteHTML($question, true, false, true, false, "");
                 $questionNumber++;
             }
         }
         # ulozi subor na disk
-        # TODO fixnut ukladanie do /storage/app/public/
-        $pdf->Output(__DIR__.'/test.pdf', 'F');
+        $pdf->Output($path . 'public/testy/test.pdf', 'F');
     }
 }
