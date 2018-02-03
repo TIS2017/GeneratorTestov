@@ -26,6 +26,8 @@
         <input type="submit" value="Vygeneruj test">
     </form>
 
+    <p class="generator-progress"></p>
+
     <div class="generator-output">
 
     </div>

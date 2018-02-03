@@ -29430,6 +29430,14 @@ $(document).ready(function () {
         });
     });
 
+    $(document).ajaxStart(function () {
+        $(".generator-progress").html("Generovanie ...");
+    });
+
+    $(document).ajaxStop(function () {
+        $(".generator-progress").html("");
+    });
+
     $("#add-questions").on("click", function (e) {
         var fieldsetCount = $("#option-questions fieldset").length;
         var i = fieldsetCount + 1;

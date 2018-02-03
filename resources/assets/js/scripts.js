@@ -31,6 +31,14 @@ $(document).ready(function () {
         })
     });
 
+    $(document).ajaxStart(function(){
+        $(".generator-progress").html("Generovanie ...");
+    })
+
+    $(document).ajaxStop(function(){
+        $(".generator-progress").html("");
+    })
+
     $("#add-questions").on("click", function (e) {
         let fieldsetCount = $("#option-questions fieldset").length;
         let i = fieldsetCount + 1;
