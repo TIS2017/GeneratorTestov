@@ -42,7 +42,15 @@ class GeneratorController extends Controller
             # generovanie testov podla zadaneho poctu
             while ($testCount > 0) {
                 # funkcia, ktora sa stara o generovanie
-                array_push($result, $this->generateTestQuestions($questiosOptions, $practicalCount));
+                $generationResult = $this->generateTestQuestions($questiosOptions, $practicalCount);
+                # ak generator vrati null (nie je mozne vygenerovat test tak koncim)
+                if ($generationResult == null){
+                    return response()->json([
+                        'status' => 'failed',
+                        'mgs' => 'nie je mozne generovat test so zadanymi parametrami'
+                        ]);
+                }
+                array_push($result, $generationResult);
                 $testCount--;
             }
 
