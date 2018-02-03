@@ -55,11 +55,11 @@ class GeneratorController extends Controller
             }
 
             # vygeneruje PDF subor
-            $this->generatePDF($result);
+            $pdf_file = $this->generatePDF($result);
 
             # resposne ak vsetko prebehlo OK
             return response()->json([
-                'result' => $result,
+                'pdf_file' => $pdf_file,
                 'status' => 'success',
                 'msg' => 'OK',
                 'request' => $request->all(),
@@ -153,7 +153,7 @@ class GeneratorController extends Controller
         $pdf->setPrintFooter(false);
 
         # cela cesta k /storage/app/
-        $path = storage_path('/app');
+        $path = storage_path('app/');
 
         # pre kazdy vygenerovany test prida otazky do PDF
         foreach ($tests as $test) {
@@ -166,12 +166,16 @@ class GeneratorController extends Controller
                 $question .= "[" . (string)$questions->points . "]\n";
                 # cesta v obrazkom
                 # ak ano prejde vsetky obrazky v zlozke a prida ich do PDF suboru
-                $images = Storage::files('/public/question_images/' . $question->id);
-                foreach ($images as $image) {
-                    $question .= '<br>';
-                    Log::info($image);
-                    $question .= '<img src="' . $path . (string)$image . '" style="padding-bottom:10px">';
+                try {
+                    $images = Storage::files('public/question_images/' . $question->id);
+                    foreach ($images as $image) {
+                        $question .= '<br>';
+                        Log::info($image);
+                        $question .= '<img src="' . $path . (string)$image . '" style="padding-bottom:10px">';
 
+                    }
+                }catch (\Exception $e){
+                    Log::info("K otazke s id ". $questions->id ." nie su obrazky");
                 }
                 $question .= "</html>";
                 $pdf->WriteHTML($question, true, false, true, false, "");
@@ -179,6 +183,7 @@ class GeneratorController extends Controller
             }
         }
         # ulozi subor na disk
-        $pdf->Output($path . '/public/testy/test.pdf', 'F');
+        $pdf->Output($path . 'public/testy/test.pdf', 'F');
+        return $path . 'public/testy/test.pdf';
     }
 }
