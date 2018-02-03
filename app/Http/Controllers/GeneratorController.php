@@ -153,7 +153,7 @@ class GeneratorController extends Controller
         $pdf->setPrintFooter(false);
 
         # cela cesta k /storage/app/
-        $path = storage_path() . '/app/';
+        $path = storage_path('/app');
 
         # pre kazdy vygenerovany test prida otazky do PDF
         foreach ($tests as $test) {
@@ -166,7 +166,7 @@ class GeneratorController extends Controller
                 $question .= "[" . (string)$questions->points . "]\n";
                 # cesta v obrazkom
                 # ak ano prejde vsetky obrazky v zlozke a prida ich do PDF suboru
-                $images = Storage::files('public/question_images/' . $question->id);
+                $images = Storage::files('/public/question_images/' . $question->id);
                 foreach ($images as $image) {
                     $question .= '<br>';
                     Log::info($image);
@@ -179,6 +179,6 @@ class GeneratorController extends Controller
             }
         }
         # ulozi subor na disk
-        $pdf->Output($path . 'public/testy/test.pdf', 'F');
+        $pdf->Output($path . '/public/testy/test.pdf', 'F');
     }
 }
