@@ -29402,6 +29402,7 @@ $(document).ready(function () {
 
     $("#generator-options").submit(function (e) {
         e.preventDefault();
+        var generatorOutput = $('.generator-output');
         var questionOptions = {};
         for (var i = 1; i <= $("#option-questions fieldset").length; i++) {
             var count = parseInt($("#questions-" + i + "-count").val());
@@ -29422,6 +29423,10 @@ $(document).ready(function () {
             dataType: 'json'
         }).done(function (msg) {
             console.log(msg);
+            generatorOutput.html("<p>" + msg.msg + "</p>");
+            if (msg.status) {
+                generatorOutput.append("<a href='" + msg.pdf_file + "'>Stiahnuť test</a>");
+            }
         });
     });
 

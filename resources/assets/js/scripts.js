@@ -2,6 +2,7 @@ $(document).ready(function () {
   
     $("#generator-options").submit(function (e) {
         e.preventDefault();
+        let generatorOutput = $('.generator-output');
         let questionOptions = {};
         for (let i = 1; i <= $("#option-questions fieldset").length; i++) {
             let count = parseInt($("#questions-" + i + "-count").val());
@@ -23,6 +24,10 @@ $(document).ready(function () {
             dataType: 'json'
         }).done(function (msg) {
             console.log(msg);
+            generatorOutput.html("<p>" + msg.msg + "</p>");
+            if (msg.status) {
+                generatorOutput.append("<a href='" + msg.pdf_file + "'>Stiahnuť test</a>")
+            }
         })
     });
 

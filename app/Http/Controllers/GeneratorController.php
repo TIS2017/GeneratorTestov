@@ -59,6 +59,7 @@ class GeneratorController extends Controller
             return response()->json([
                 'pdf_file' => $pdf_file,
                 'status' => true,
+                'msg' => 'Test bol úspešne vygenerovaný!'
             ]);
         }
 
@@ -179,6 +180,6 @@ class GeneratorController extends Controller
         }
         # ulozi subor na disk
         $pdf->Output($path . 'public/testy/test.pdf', 'F');
-        return $path . 'public/testy/test.pdf';
+        return 'storage/testy/test.pdf';
     }
 }

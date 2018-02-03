@@ -25,4 +25,9 @@
 
         <input type="submit" value="Vygeneruj test">
     </form>
+
+    <div class="generator-output">
+
+    </div>
+
 @endsection
