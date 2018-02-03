@@ -32,10 +32,8 @@ class GeneratorController extends Controller
             # ak je pocet mensi ako 1 tak koniec
             if ($testCount < 1) {
                 return response()->json([
-                    'status' => 'failed',
-                    'msg' => 'FAILED',
-                    'request' => $request->all(),
-                    'optionQuestions' => json_decode($request->optionQuestions)
+                    'status' => false,
+                    'msg' => 'Je potrebný aspoň jeden test!'
                 ]);
             }
 
@@ -46,8 +44,8 @@ class GeneratorController extends Controller
                 # ak generator vrati null (nie je mozne vygenerovat test tak koncim)
                 if ($generationResult == null) {
                     return response()->json([
-                        'status' => 'failed',
-                        'mgs' => 'nie je mozne generovat test so zadanymi parametrami'
+                        'status' => false,
+                        'msg' => 'Nie je možné vygenerovať test so zadanými parametrami!'
                     ]);
                 }
                 array_push($result, $generationResult);
@@ -60,10 +58,7 @@ class GeneratorController extends Controller
             # resposne ak vsetko prebehlo OK
             return response()->json([
                 'pdf_file' => $pdf_file,
-                'status' => 'success',
-                'msg' => 'OK',
-                'request' => $request->all(),
-                'optionQuestions' => json_decode($request->optionQuestions)
+                'status' => true,
             ]);
         }
 
