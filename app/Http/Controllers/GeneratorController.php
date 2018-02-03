@@ -167,7 +167,7 @@ class GeneratorController extends Controller
                 # cesta v obrazkom
                 # ak ano prejde vsetky obrazky v zlozke a prida ich do PDF suboru
                 try {
-                    $images = Storage::files('public/question_images/' . $question->id);
+                    $images = Storage::files('public/question_images/' . $questions->id);
                     foreach ($images as $image) {
                         $question .= '<br>';
                         Log::info($image);
