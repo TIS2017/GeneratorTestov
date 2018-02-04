@@ -1,13 +1,13 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "generator-testov",
+    "description": "Nastroj na generovanie testov",
+    "keywords": ["laravel"],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=7.0.0",
         "fideloper/proxy": "~3.3",
-        "laravel/framework": "5.5.*",
+        "laravel/framework": "5.5.33",
         "laravel/tinker": "~1.0",
         "tecnickcom/tcpdf": "^6.2"
     },

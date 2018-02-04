@@ -17,3 +17,18 @@ php artisan migrate
 ```
 php artisan db:seed
 ```
+
+## Generovanie kľúča
+```
+php artisan key:generate
+```
+## Compiling assets
+Run this command
+```
+npm run dev
+```
+If you want to minify output run this
+```
+npm run production
+```
+See [this](https://laravel.com/docs/5.5/mix) for more info.

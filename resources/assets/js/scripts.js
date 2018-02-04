@@ -2,6 +2,7 @@ $(document).ready(function () {
   
     $("#generator-options").submit(function (e) {
         e.preventDefault();
+        let generatorOutput = $('.generator-output');
         let questionOptions = {};
         for (let i = 1; i <= $("#option-questions fieldset").length; i++) {
             let count = parseInt($("#questions-" + i + "-count").val());
@@ -9,11 +10,8 @@ $(document).ready(function () {
             if (count !== undefined && points !== undefined)
                 questionOptions[points] = count;
         }
-        console.log(questionOptions);
         let practicalCount = $("#option-practical-count").val();
-        console.log(practicalCount);
         let testsCount = $("#option-tests-count").val();
-        console.log(testsCount);
         $.ajax({
             type: "post",
             url: "/generator/run",
@@ -26,8 +24,20 @@ $(document).ready(function () {
             dataType: 'json'
         }).done(function (msg) {
             console.log(msg);
+            generatorOutput.html("<p>" + msg.msg + "</p>");
+            if (msg.status) {
+                generatorOutput.append("<a href='" + msg.pdf_file + "'>Stiahnuť test</a>")
+            }
         })
     });
+
+    $(document).ajaxStart(function(){
+        $(".generator-progress").html("Generovanie ...");
+    })
+
+    $(document).ajaxStop(function(){
+        $(".generator-progress").html("");
+    })
 
     $("#add-questions").on("click", function (e) {
         let fieldsetCount = $("#option-questions fieldset").length;
