@@ -16,13 +16,12 @@ header {
 }
 
 nav{
-	background-color: Peru; 
-	text-align: center;
-	position:relative;
-	margin:0 auto 0 auto;
-	display:block;
-	height:30px;
-	padding-top: 5px;
+	background-color: Peru;
+	height:35px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
 }
 
 body{
@@ -84,7 +83,6 @@ fieldset {
 nav a:hover{
 	color:PeachPuff;
 	text-decoration: none;
-	padding-top: 5px;
 }
 
 p{
