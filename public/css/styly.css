@@ -269,9 +269,25 @@ input[type=accept] {
     background-color: Peru;
 }
 
+.question {
+	display: flex;
+	padding: 1rem;
+}
+
 .questionBlock {
-	float:left;
-	margin-top: 0.5em;
-	margin-left: 1em;
+	width: 70%;
 	font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+.btn-group {
+	width: 30%;
+	text-align: right;
+}
+
+.question-action {
+	background: orange;
+	color: black;
+	padding: .5rem 1rem;
+	text-decoration: none;
+	font-size: 1rem;
 }
