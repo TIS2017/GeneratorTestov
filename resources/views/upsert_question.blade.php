@@ -22,15 +22,17 @@
         <input name="images[]" type="file" accept="image/*" id="images" multiple>
         @isset($questionImages)
             @foreach($questionImages as $key => $image)
-                <div id="image-{{ $key }}">
+                <div class="question-image" id="image-{{ $key }}">
+                    <button image="{{ $image }}" class="delete-question-image question-action">Vymazať obrázok</button><br>
                     <image src="{{ Storage::url($image) }}" />
-                    <button image="{{ $image }}" class="delete-question-image">Vymazat obrazok</button>
                 </div>
             @endforeach
         @endisset
+        <br>
         <label for="keywords">Kľúčové slová</label>
         <input type="text" name="keywords" id="keywords" value="{{ $errors->any() ? old('keywords') : ($question ? $question_keywords : '')  }}">
         <input type="checkbox" name="practical" value="1" id="practical" {{ ($errors->any()&&old('practical')||$question&&$question->practical) ? 'checked' : ''  }}><label for="practical">Praktická</label>
+        <br>
         <input type="submit" value="{{ $question ? 'Uprav otázku' : 'Pridaj otázku' }}">
     </form>
 @endsection

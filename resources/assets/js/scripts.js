@@ -26,7 +26,7 @@ $(document).ready(function () {
             console.log(msg);
             generatorOutput.html("<p>" + msg.msg + "</p>");
             if (msg.status) {
-                generatorOutput.append("<a href='" + msg.pdf_file + "'>Stiahnuť test</a>")
+                generatorOutput.append("<a href='" + msg.pdf_file + "' class='question-action'>Stiahnuť test</a>")
             }
         })
     });

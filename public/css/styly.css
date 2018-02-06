@@ -1,3 +1,12 @@
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
+
+* {
+	box-sizing: inherit;
+}
+
 header {
 	background-color: #F58E50;
 	font-family: 'Ubuntu Condensed', sans-serif;
@@ -7,24 +16,27 @@ header {
 }
 
 nav{
-	background-color: Peru; 
-	text-align: center;
-	position:relative;
-	margin:0 auto 0 auto;
-	display:block;
-	height:30px;
-	padding-top: 5px;
+	background-color: Peru;
+	height:35px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
 }
 
 body{
 	background-color: AntiqueWhite;
+	margin: 0;
+	height: 100%;
 }
 
 .bodyStyle{
 	background-color: PeachPuff;
-	margin:0 auto 0 auto;
-	width:50%;
+	margin:0 auto;
+	width:900px;
 	position: relative;
+	min-height: 100%;
+	padding-bottom: 30px;
 }
 
 #content {
@@ -36,12 +48,13 @@ body{
 section{
 	background-color: white;
 	width:80%;
-	height:750px;
 	position:relative;
 	margin:0 auto 0 auto;
 	display:block;
 	color:orange;
 	font-size: 20px;
+	height: 100%;
+	padding-bottom: .5rem;
 }
 
 h1{
@@ -70,7 +83,6 @@ fieldset {
 nav a:hover{
 	color:PeachPuff;
 	text-decoration: none;
-	padding-top: 5px;
 }
 
 p{
@@ -87,11 +99,17 @@ footer{
 	background-color: #F58E50;
 	text-align: center;
 	font-family: 'Ubuntu Condensed', sans-serif;
-	position:relative;
-	margin:0 auto 0 auto;
+	margin: 0;
 	color:white;
 	height:30px;
-	padding-top:10px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
 }
 
 form {
@@ -269,9 +287,63 @@ input[type=accept] {
     background-color: Peru;
 }
 
+.question {
+	display: flex;
+	padding: 1rem;
+}
+
 .questionBlock {
-	float:left;
-	margin-top: 0.5em;
-	margin-left: 1em;
+	width: 70%;
 	font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+.btn-group {
+	width: 30%;
+	text-align: right;
+}
+
+.question-action {
+	background: orange;
+	color: black;
+	padding: .5rem 1rem;
+	text-decoration: none;
+	font-size: 1rem;
+    border: 0;
+    cursor: pointer;
+}
+
+.delete-question-image {
+    margin-bottom: .5rem;
+}
+
+.question-image {
+    margin: 1rem 0;
+}
+
+.pagination {
+	text-align: center;
+}
+
+.pagination li {
+	display: inline-block;
+	padding: .5rem;
+	font-size: 1rem;
+	color: black;
+	background: orange;
+	border: 1px solid #6f6f6f;
+	border-radius: 2px;
+}
+
+.pagination .active {
+	background: #fff !important;
+}
+
+.pagination li a {
+	text-decoration: none;
+	color: black;
+}
+
+.generator-output, .center {
+	padding: 1rem;
+	text-align: center;
 }

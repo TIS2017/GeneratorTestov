@@ -25,7 +25,7 @@ class StoreQuestion extends FormRequest
     {
         return [
             'question' => 'required',
-            'points' => 'integer',
+            'points' => 'integer|min:1',
             'images.*' => 'image'
         ];
     }
@@ -35,6 +35,7 @@ class StoreQuestion extends FormRequest
         return [
             'question.required' => 'Znenie otázky nesmie byť prázdne',
             'points.integer' => 'Bodové ohodnotenie otázky musí byť celé číslo',
+            'points.min' => 'Počet bodov musí byť aspoň 1',
             'images.*' => 'Obrázky nemajú povolený formát'
         ];
     }

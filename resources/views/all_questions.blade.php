@@ -8,11 +8,11 @@
     @foreach($questions as $question)
         <div class="question" id="question-{{ $question->id }}">
             <div class="questionBlock">
-                {{ $question->id }} - {{ $question->question }}
+                {{ $question->id }} - {!! nl2br(e($question->question)) !!}
             </div>
             <div class="btn-group">
-                <a href="/questions/edit/{{ $question->id }}">Uprav</a>
-                <a href="/questions/delete" class="delete-question">Zmaž</a>
+                <a href="/questions/edit/{{ $question->id }}" class="question-action">Uprav</a>
+                <a href="/questions/delete" class="question-action delete-question">Zmaž</a>
             </div>
         </div>
     @endforeach

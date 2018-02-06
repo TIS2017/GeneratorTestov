@@ -54,6 +54,7 @@ class AdminController extends Controller
         }
         // udaje z formulara
         $question = $request->question;
+        $question = str_replace(" ", "&nbsp;", $question);
         $points = $request->points;
         $keywords = explode(',', $request->keywords);
         $practical = $request->has('practical') ? true : false;
@@ -85,7 +86,10 @@ class AdminController extends Controller
         if ($request->hasFile('images')) {
             $this->saveImages($request->file('images'), $q->id);
         }
-        return view('store_question');
+        if ($update)
+            return redirect()->route('administration');
+        else
+            return view('store_question');
     }
 
     private function tryToDeleteKeywords($keywords)
