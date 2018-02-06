@@ -180,8 +180,11 @@ class GeneratorController extends Controller
             foreach ($test as $questions) {
                 $question = "<html>";
                 $question .= (string)$questionNumber . ".    ";
-                $question .= (string)$questions->question . '    ';
-                $question .= "[" . (string)$questions->points . "]\n";
+                $question .= "[" . (string)$questions->points . " b.]    ";
+                $question .= (string)nl2br($questions->question);
+
+                $question .= '<br>';
+
                 # cesta v obrazkom
                 # ak ano prejde vsetky obrazky v zlozke a prida ich do PDF suboru
                 try {

@@ -54,6 +54,7 @@ class AdminController extends Controller
         }
         // udaje z formulara
         $question = $request->question;
+        $question = str_replace(" ", "&nbsp;", $question);
         $points = $request->points;
         $keywords = explode(',', $request->keywords);
         $practical = $request->has('practical') ? true : false;
