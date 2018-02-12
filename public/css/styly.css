@@ -318,6 +318,11 @@ input[type=accept] {
 
 .question-image {
     margin: 1rem 0;
+	width: 600px;
+}
+
+.question-image img {
+	max-width: 100%;
 }
 
 .pagination {
