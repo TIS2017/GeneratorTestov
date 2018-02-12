@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `keywords` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'primarny kluc tabulky',
-  `word` varchar(50) COLLATE utf8_bin NOT NULL,
+  `keyword` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='tabulka ktora obsahuje klucove slova' AUTO_INCREMENT=13 ;
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `keywords` (
 -- Dumping data for table `keywords`
 --
 
-INSERT INTO `keywords` (`id`, `word`) VALUES
+INSERT INTO `keywords` (`id`, `keyword`) VALUES
 (1, 'SVM'),
 (2, 'HMM'),
 (3, 'perceptron'),
@@ -109,7 +109,7 @@ INSERT INTO `keywords_questions` (`keyword_id`, `question_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id otazky',
-  `question` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'znenie otazky',
+  `question` TEXT COLLATE utf8_bin NOT NULL COMMENT 'znenie otazky',
   `points` int(11) NOT NULL COMMENT 'pocet bodov',
   `practical` tinyint(1) NOT NULL COMMENT 'true - prakticka / false - nie prakticka',
   PRIMARY KEY (`id`)
