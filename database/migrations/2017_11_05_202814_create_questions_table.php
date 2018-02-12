@@ -15,7 +15,6 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
             $table->text('question')->comment('znenie otazky');
             $table->double('points')->comment('pocet bodov');
             $table->boolean('practical')->comment('true - prakticka / false - nie prakticka');
