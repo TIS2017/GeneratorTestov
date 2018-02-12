@@ -11,6 +11,8 @@ class Keyword extends Model
 
     protected $fillable = ['keyword'];
 
+    public $timestamps = false;
+
     public function questions() {
         return $this->belongsToMany('App\Question', 'keywords_questions', 'keyword_id', 'question_id');
     }
