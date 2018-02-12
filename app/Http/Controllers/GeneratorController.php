@@ -208,6 +208,7 @@ class GeneratorController extends Controller
 
         # zakladne nastavenia pre generovanie PDF
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'utf-8', false);
+        $pdf->SetFont('times', '', 12);
         $pdf->setCreator(PDF_CREATOR);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
