@@ -135,8 +135,8 @@ textarea {
 	border-radius: 3px;
 	border: 2px solid orange;
 	display:block;
-	width: 400px;
-	height: 40px;
+	width: 510px;
+	height: 140px;
 	margin-top:10px;
 	margin-bottom:10px;
 }
@@ -318,6 +318,11 @@ input[type=accept] {
 
 .question-image {
     margin: 1rem 0;
+	width: 600px;
+}
+
+.question-image img {
+	max-width: 100%;
 }
 
 .pagination {

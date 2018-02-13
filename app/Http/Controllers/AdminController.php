@@ -158,9 +158,4 @@ class AdminController extends Controller
         }
         return null;
     }
-
-    public function findKeywords(Request $request)
-    {
-        var_dump('findKeywords');
-    }
 }

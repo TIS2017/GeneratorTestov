@@ -14,7 +14,6 @@ class CreateKeywordsQuestionsTable extends Migration
     public function up()
     {
         Schema::create('keywords_questions', function (Blueprint $table) {
-            $table->timestamps();
             $table->integer('keyword_id')->unsigned();
             $table->integer('question_id')->unsigned();
             $table->foreign('keyword_id')->references('id')->on('keywords')->onDelete('cascade');

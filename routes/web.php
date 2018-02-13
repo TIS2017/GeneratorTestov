@@ -35,10 +35,6 @@ Route::get('/questions/edit/{id}', 'AdminController@editQuestion')->where('id', 
 Route::post('/questions/delete', 'AdminController@deleteQuestion')
     ->name('delete_question');
 
-// najdenie klucovych slov, ajax
-Route::get('/questions/find_keywords', 'AdminController@findKeywords');
-
-
 
 // formular na zadanie parametrov
 Route::get('/generator', 'GeneratorController@index')

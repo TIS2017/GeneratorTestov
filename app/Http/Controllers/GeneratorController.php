@@ -105,14 +105,34 @@ class GeneratorController extends Controller
             $questionCount = 0;
             foreach ($questions as $question) {
                 if ($questionCount != $value) {
-                    $keyword_id = DB::table('keywords_questions')->select('keyword_id')->where('question_id', '=', $question->id)->get();
+                    // vsetky klucove slova otazky
+                    // objekt Illuminate\Support\Collection
+                    $question_keywords = DB::table('keywords_questions')->select('keyword_id')->where('question_id', '=', $question->id)->get();
                     # pozriem sa ci uz mam otazku s klucovym slovom
                     # ak nie -> poznacim si ho a pridam otazku do testu
                     # ak ano pokracujem v hladani
-                    if (!in_array($keyword_id, $keyWordUsed)) {
-                        array_push($keyWordUsed, $keyword_id);
+                    if ($question_keywords->isEmpty()) {
+                        // otazka nema klucove slova
+                        // prida sa do testu
                         array_push($testQuestions, $question);
                         $questionCount++;
+                    } else {
+                        // otazka ma klucove slova
+                        // kontrola, ci nie je nejake klucove slovo obsadene
+                        $accepted = true;
+                        foreach ($question_keywords as $keyword) {
+                            if (in_array($keyword, $keyWordUsed)) {
+                                $accepted = false;
+                            }
+                        }
+                        if ($accepted) {
+                            // ak je vsetko OK, tak prida otazku aj jej klucove slova
+                            array_push($testQuestions, $question);
+                            $questionCount++;
+                            foreach ($question_keywords as $keyword) {
+                                array_push($keyWordUsed, $keyword);
+                            }
+                        }
                     }
                 } else {
                     # uz mam urceny pocet mozem vyskocit
@@ -127,6 +147,8 @@ class GeneratorController extends Controller
         }
 
         if ($practicalCount > 0) {
+            // vsetky prakticke otazky
+            // objekt Illuminate\Support\Collection
             $questions = DB::table('questions')->select('id', 'question', 'practical', 'points')->where('practical', '=', 1)->inRandomOrder()->get();
             # ak je pocet prakticky otazok v DB mensi ako zadany pocet na generovanie
             if (count($questions) < $practicalCount) {
@@ -135,14 +157,34 @@ class GeneratorController extends Controller
             $questionCount = 0;
             foreach ($questions as $question) {
                 if ($questionCount != $practicalCount) {
-                    $keyword_id = DB::table('keywords_questions')->select('keyword_id')->where('question_id', '=', $question->id)->get();
+                    // vsetky klucove slova otazky
+                    // objekt Illuminate\Support\Collection
+                    $question_keywords = DB::table('keywords_questions')->select('keyword_id')->where('question_id', '=', $question->id)->get();
                     # pozriem sa ci uz mam otazku s klucovym slovom
                     # ak nie -> poznacim si ho a pridam otazku do testu
                     # ak ano pokracujem v hladani
-                    if (!in_array($keyword_id, $keyWordUsed)) {
-                        array_push($keyWordUsed, $keyword_id);
+                    if ($question_keywords->isEmpty()) {
+                        // otazka nema klucove slova
+                        // prida sa do testu
                         array_push($testQuestions, $question);
                         $questionCount++;
+                    } else {
+                        // otazka ma klucove slova
+                        // kontrola, ci nie je nejake klucove slovo obsadene
+                        $accepted = true;
+                        foreach ($question_keywords as $keyword) {
+                            if (in_array($keyword, $keyWordUsed)) {
+                                $accepted = false;
+                            }
+                        }
+                        if ($accepted) {
+                            // ak je vsetko OK, tak prida otazku aj jej klucove slova
+                            array_push($testQuestions, $question);
+                            $questionCount++;
+                            foreach ($question_keywords as $keyword) {
+                                array_push($keyWordUsed, $keyword);
+                            }
+                        }
                     }
                 } else {
                     # uz mam urceny pocet mozem vyskocit
@@ -166,6 +208,7 @@ class GeneratorController extends Controller
 
         # zakladne nastavenia pre generovanie PDF
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'utf-8', false);
+        $pdf->SetFont('times', '', 12);
         $pdf->setCreator(PDF_CREATOR);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
